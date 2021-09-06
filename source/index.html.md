@@ -1,241 +1,1004 @@
 ---
-title: API Reference
+title: Documentación de API
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
-  - ruby
-  - python
-  - javascript
+  - C#
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
-
-includes:
-  - errors
+  - <a href='https://guiah.tv'>Guíah TV</a>
 
 search: true
 
 code_clipboard: true
 ---
 
-# Introduction
+# Login
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Endpoint utilizado para el inicio de sesión, valida que los datos sean correctos y devuelve el suscriberID para que el usuario pueda acceder (dependiendo del estado de sus sucripción) al contenido disponible.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+`GET https://lap55.com/json/api/cmd/logusr/${username}/${password}`
 
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
+### Parámetros del Query
 
-# Authentication
-
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here" \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens" \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
+Parámetro | Requerido | Descripción
 --------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+Username | si | Correo con el que fue registrado el usuario.
+Password | si | Contraseña que el usuario definió en su registro.
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
+### Parámetros del Body
+Dentro del body se envía la información del dispositivo con los siguientes parámetros:
 
-## Get a Specific Kitten
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+DevicePlatform | si | Marca del dispositivo.
+DeviceType | si | Tipo de dispositivo.
+DeviceUUID | si | UUID (Identificador único universal) del dispositivo.
+DeviceVersion | si | Versión del sistema del dispositivo.
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2" \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
+> Retorna una estructura JSON como la siguiente:
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+    "SuscriberID": "OUHdzypfhr0RLOKAD2h-nzTm6U4a5PQHbrBuqIAlV54",
+    "Response": "Usuario Suscrito",
+    "IsSuscribed": true,
+    "ResponseCode": 2
 }
 ```
 
-This endpoint retrieves a specific kitten.
+### Respuesta
 
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
+Parámetro | Descripción
 --------- | -----------
-ID | The ID of the kitten to retrieve
+SuscriberID | ID que se genera al iniciar una nueva sesión.
+Response | Estado del usuario (dependiendo del ResponseCode).
+IsSuscribed | Indica si es usuario cuenta con una suscripción.
+ResponseCode &nbsp;&nbsp;&nbsp;| <ul style="list-style: circle; padding: 0; margin-top:0"><li>0 UsrNotFound = Usuario No Encontrado</li><li>2 UsrSuscribed = Usuario Suscrito</li><li> 3 UsrPassError = Password Incorrecta</li><li>6 UsrExceedsDevices = Usuario Suscrito excede el límite de dispositivos permitidos</li></ul>
 
-## Delete a Specific Kitten
+# Spotlight
 
-```ruby
-require 'kittn'
+Retorna las URL de las imágenes que carga el carrusel o "spotlight" ubicado en la sección de "Home".
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
+`GET https://lap55.com/json/api/sl/leon/home_spotlight`
 
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2" \
-  -X DELETE \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
+> Retorna una estructura JSON como la siguiente:
 
 ```json
 {
-  "id": 2,
-  "deleted" : ":("
+    "Registro": 1790,
+    "Imglink": "https://guiah.tv/dl/banners/04/banner_alacartaliving.webp",
+    "ImgPortrait": "https://guiah.tv/dl/banners/04/smartbanner_alacartaliving.webp",
+    "ImgLandscape": "https://guiah.tv/dl/banners/04/banner_alacartaliving.webp",
+    "Activo": true,
+    "MainSection": "home_spotlight"
 }
 ```
 
-This endpoint deletes a specific kitten.
+### Respuesta
 
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
+Parámetro | Descripción
 --------- | -----------
-ID | The ID of the kitten to delete
+Registro | ID de imagen de spotlight.
+Imglink | URL de la imagen del spotlight.
+ImgPortrait | URL de la imagen en formato vertical (Portrait).
+ImgLandscape | URL de la imagen en formato horizontal (Landscape).
+Activo | Indica si el spotlight está actualmente activo
+MainSection | Indica la sección en la que la imagen es renderizada.
 
+# Buttons Menu
+
+Retorna las URL de las imágenes que cargan los botones o recuadros de menú (los cuales envían al contenido correspondiente) en la sección de "Home".
+
+`GET https://lap55.com/json/api/cs/leon_home_bm`
+
+> Retorna una estructura JSON como la siguiente:
+
+```json
+{
+    "orden": 0,
+    "titulo": "En Vivo",
+    "activo": false,
+    "MainSection": "leon_home_bm",
+    "PosterCardUrl": "http://canal.lap55.com/media/home/envivoshadow.png",
+    "PosterCardUrlLandscape": "https://guiah.tv/dl/home/livetv_land.png",
+    "PosterCardUrlPortrait": "https://guiah.tv/dl/home/livetv.png"
+}
+```
+
+### Respuesta
+
+Parámetro | Descripción
+--------- | -----------
+orden | Indica el orden en que el botón es renderizado.
+titulo | Título del botón correspondiente
+activo | Indica si el botón correspondiente está actualmente activo
+MainSection | Indica la sección en la que la imagen es renderizada.
+PosterCardUrl | URL de la imagen de los botones del menú.
+PosterCardUrlLandscape | URL de la imagen en formato horizontal (Landscape).
+PosterCardUrlPortrait | URL de la imagen en formato vertical (Portrait).
+
+# LiveTV
+
+## LiveTV
+
+Endpoint que retorna la información de los canales de Televisión en Vivo.
+
+`GET https://lap55.com/json/api/cmdata/leon/livetvplus/${deviceID}/${utcLocal}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+deviceID | si | ID generado al iniciar sesión.
+utcLocal | si | UTC (Universal Time Coordinated) “Tiempo Coordinado Universal” de la zona en que se encuentre el usuario.
+
+> Retorna una estructura JSON como la siguiente:
+
+```json
+{
+  "SuscriptionStatus": 1,
+  "SuscriptionResponse": "Suscripción vigente",
+  "category": "Canales TV - 1",
+  "poster_type": "2",
+  "cmData": [
+    {
+        "Id": "2",
+        "Name": "Vidartv Plus",
+        "Url": "https://sina2.guiah.tv/guiahtv/vidaplus/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9OC8zMS8yMDIxIDQ6NTk6MjIgUE0maGFzaF92YWx1ZT1iTW1Hd0FzTlI2U0ovYmw4WEVpM3RRPT0mdmFsaWRtaW51dGVzPTUmaWQ9T1VIRFpZUEZIUjBSTE9LQUQySC1OWlRNNlU0QTVQUUhCUkJVUUlBTFY1NA==",
+        "Poster": "https://panel.guiah.tv/media/LiveContents/20210319105219107.webp"
+    }]
+}
+```
+
+### Respuesta
+
+Parámetro | Descripción
+--------- | -----------
+<a href="/#statuscode-suscriptionstatus">SuscriptionStatus</a> | Código del estado de la suscripción.
+<a href="/#statuscode-suscriptionstatus">SuscriptionResponse</a> | Estado del usuario (con suscripción válida, expirada, etc).
+category | Indica la categoría a la que corresponde el contenido.
+<a href="/#poster-type">poster_type</a> | Tipo de póster (landscape, portrait, etc).
+cmData <ul style="padding: 0px 30px; list-style: circle; margin: 0"><li>Id</li><li>Name</li><li>Url</li><li>Poster</li><ul> | Datos del contenido solicitado. <ul style="padding: 0px; list-style: none; margin: 0"><li>ID del contenido</li><li>Nombre del contenido</li><li>Url del contenido (no utilizar)</li><li>URL de la imagen del contenido</li><ul>
+
+## LiveTV link
+
+Endpoint que retorna una URL "m3u8" con un token de autorización. El token vence cada 5 minutos.
+
+`GET https://lap55.com/json/api/cmd/getLinkLiveTV/${SignalID}/${deviceID}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+SignalID | si | ID de la señal solicitada.
+deviceID | si | Identificador generado por dispositivo al iniciar sesión.
+
+> Retorna una estructura JSON como la siguiente:
+
+```json
+{
+    "StatusMessage": "Suscripción vigente",
+    "StatusCode": 1,
+    "Url": "https://sina2.guiah.tv/guiahtv/vidaplus/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9OC8zMS8yMDIxIDU6MjQ6MjYgUE0maGFzaF92YWx1ZT0rNkxJbUVRb0VlSFVZbFFqQzl1R2F3PT0mdmFsaWRtaW51dGVzPTUmaWQ9T1VIRFpZUEZIUjBSTE9LQUQySC1OWlRNNlU0QTVQUUhCUkJVUUlBTFY1NA=="
+}
+```
+
+### Respuesta
+
+Parámetro | Descripción
+--------- | -----------
+<a href="/#statuscode-suscriptionstatus">StatusMessage</a> | Estado del usuario (con suscripción válida, expirada, etc).
+<a href="/#statuscode-suscriptionstatus">StatusCode</a> | Código del estado de la suscripción.
+Url | URL m3u8 con token de autorización.
+
+# VOD
+
+## Catalogue VOD
+
+Endpoint que retorna la información del contenido de VOD (Video Bajo Demanda).
+
+`GET https://lap55.com/json/api/cmdata/leon/entplus/${deviceID}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+deviceID | si | Identificador generado por dispositivo al iniciar sesión.
+
+> Retorna una estructura JSON como la siguiente:
+
+```json
+{
+  "SuscriptionStatus": 1,
+  "SuscriptionResponse": "Suscripción vigente",
+  "category": "Películas",
+  "poster_type": "0",
+  "cmData": [
+  {
+      "id": 0,
+      "Registro": "28",
+      "Title": "Miles Between Us",
+      "HDPosterUrl": "https://panel.guiah.tv/media/VOD/1/20210504173820870/20210504173820870_LS.webp",
+      "Url": "https://lap55.com/dl/videos/suscribe.mp4",
+      "ContentType": "movie",
+      "ResumePos": ""
+  }]
+}
+```
+
+### Respuesta
+
+Parámetro | Descripción
+--------- | -----------
+<a href="/#statuscode-suscriptionstatus">SuscriptionStatus</a> | Código del estado de la suscripción.
+<a href="/#statuscode-suscriptionstatus">SuscriptionResponse</a> | Estado del usuario (con suscripción válida, expirada, etc).
+category | Indica la categoría a la que corresponde el contenido.
+<a href="/#poster-type">poster_type</a> | Tipo de póster (landscape, portrait, etc).
+cmData <ul style="padding: 0px 30px; list-style: circle; margin: 0"><li>id</li><li>Registro</li><li>Title</li><li>HDPosterUrl</li><li>Url</li><li>ContentType</li><li>ResumePos</li><ul> | Datos del contenido solicitado. <ul style="padding: 0px; list-style: none; margin: 0"><li>ID del contenido</li><li>Número de registro del contenido</li><li>Nombre del contenido</li><li>URL de la imagen del contenido</li><li>Url del contenido</li><li>Tipo de contenido</li><li>Tiempo en que se quedó pausado el contenido</li><ul>
+
+## Catalogue Kids
+
+Endpoint que retorna la información del contenido de Zona Kids.
+
+`GET https://lap55.com/json/api/cdata/leon/kids/${deviceID}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+deviceID | si | Identificador generado por dispositivo al iniciar sesión.
+
+> Retorna una estructura JSON como la siguiente:
+
+```json
+{
+  "SuscriptionStatus": 1,
+  "SuscriptionResponse": "Suscripción vigente",
+  "category": "Lo Mas Visto",
+  "poster_type": "0",
+  "cmData": [
+  {
+      "id": 0,
+      "Registro": "19",
+      "Title": "Aprendamos inglés",
+      "HDPosterUrl": "https://panel.guiah.tv/media/VOD/1/Series/20210526113357590/20210526115241478/20210526115447233/20210526115447233_LS.webp",
+      "Url": "https://lap55.com/dl/videos/suscribe.mp4",
+      "ContentType": "dyn_series_kids",
+      "ResumePos": ""
+  }]
+}
+```
+
+### Respuesta
+
+Parámetro | Descripción
+--------- | -----------
+<a href="/#statuscode-suscriptionstatus">SuscriptionStatus</a> | Código del estado de la suscripción.
+<a href="/#statuscode-suscriptionstatus">SuscriptionResponse</a> | Estado del usuario (con suscripción válida, expirada, etc).
+category | Indica la categoría a la que corresponde el contenido.
+<a href="/#poster-type">poster_type</a> | Tipo de póster (landscape, portrait, etc).
+cmData <ul style="padding: 0px 30px; list-style: circle; margin: 0"><li>id</li><li>Registro</li><li>Title</li><li>HDPosterUrl</li><li>Url</li><li>ContentType</li><li>ResumePos</li><ul> | Datos del contenido solicitado. <ul style="padding: 0px; list-style: none; margin: 0"><li>ID del contenido</li><li>Número de registro del contenido</li><li>Nombre del contenido</li><li>URL de la imagen del contenido</li><li>Url del contenido</li><li>Tipo de contenido</li><li>Tiempo en que se quedó pausado el contenido</li><ul>
+
+## VOD link
+
+Endpoint que retorna una URL "m3u8" con un token de autorización. El token vence cada 5 minutos.
+
+`GET https://lap55.com/json/api/cmd/getLinkLeon/${Registro}/${deviceID}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+Registro | si | Número de registro del contenido seleccionado.
+deviceID | si | Identificador generado por dispositivo al iniciar sesión.
+
+> Retorna una estructura JSON como la siguiente:
+
+```json
+{
+    "StatusMessage": "Suscripción vigente",
+    "StatusCode": 1,
+    "Url": "https://sina3.guiah.tv/guiah/VOD/1/smil:20210504173820870.smil/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9OC8zMS8yMDIxIDU6NTY6NDggUE0maGFzaF92YWx1ZT16WWVHQWQxVDhCdE5YOXdYRm5oZUlRPT0mdmFsaWRtaW51dGVzPTUmaWQ9T1VIRFpZUEZIUjBSTE9LQUQySC1OWlRNNlU0QTVQUUhCUkJVUUlBTFY1NA=="
+}
+```
+
+### Respuesta
+
+Parámetro | Descripción
+--------- | -----------
+<a href="/#statuscode-suscriptionstatus">StatusMessage</a> | Estado del usuario (con suscripción válida, expirada, etc).
+<a href="/#statuscode-suscriptionstatus">StatusCode</a> | Código del estado de la suscripción.
+Url | URL m3u8 con token de autorización.
+
+## Resume video
+
+Endpoint que almacena la última posición del video o contenido reproducido.
+
+`GET https://lap55.com/json/api/cmd/sCmResPos/${Registro}/${positionVideo}/${deviceID}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+Registro | si | Número de registro del contenido seleccionado.
+positionVideo | si | Última posición en que quedó pausado el contenido (enviar un int en milisegundos)
+deviceID | si | Identificador generado por dispositivo al iniciar sesión.
+
+> Retorna solamente el código del estado.
+
+```json
+Status Code: 200
+```
+
+### Respuesta
+
+Solamente valida el status de la petición.
+
+Status Code: Estado de la petición 
+
+<ul><li>200: OK.</li><li>404: Not Found.</li></ul>
+
+# Series
+
+## Season
+
+Endpoint que retorna las temporadas de la serie seleccionada.
+
+`GET https://lap55.com/json/api/season/leon/${ContentTypeOrder}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+ContentTypeOrder | si | ID de la serie de la cual se quieren obtener las temporadas.
+
+> Retorna una estructura JSON como la siguiente:
+
+```json
+{
+    "id": 40,
+    "Title": "Biografías",
+    "Description": "BITE Project es una organización paraeclesial que buscar reflejar la imagen de Dios a través de la publicación de contenido multimedia sobre el pasado y el presente de la Iglesia del Señor en plataformas digitales.",
+    "HDPosterUrl": "https://panel.guiah.tv/media/VOD/1/Series/20210526123410757/20210526124643656/20210526124643656_LS.jpg",
+    "ReleaseDate": "05/26/2021",
+    "TitleSeason": "40",
+    "ContentType": "season"
+}
+```
+
+### Respuesta
+
+Parámetro | Descripción
+--------- | -----------
+id | ID de la temporada.
+Title | Título de la temporada.
+Description | Descripción de la temporada.
+HDPosterUrl | URL de la imagen de la temporada.
+TitleSeason | ID de la temporada de la cual se quieren obtener los episodios.
+ContentType | Tipo de contenido (season).
+
+## Chapters
+
+Endpoint que retorna los episodios de la temporada seleccionada.
+
+`GET https://lap55.com/json/api/episode/leon/${serieId}/temp/${TitleSeason}/${deviceID}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+serieId | si | ID de la serie.
+TitleSeason | si | ID de la temporada de la cual se quieren obtener los episodios.
+deviceID | si | Identificador generado por dispositivo al iniciar sesión.
+
+> Retorna una estructura JSON como la siguiente:
+
+```json
+{
+    "id": 0,
+    "SeriesID": 0,
+    "Registro": "205",
+    "Title": "Predica 28 de Junio",
+    "HDPosterUrl": "https://panel.guiah.tv/media/VOD/1/Series/20210504115547453/20210505144911510/20210525111842227/20210525111842227_LS.webp",
+    "TitleSeason": "19",
+    "EpisodeNumber": "2",
+    "Url": "https://lap55.com/dl/videos/suscribe.mp4",
+    "ContentType": "episodes"
+}
+```
+
+### Respuesta
+
+Parámetro | Descripción
+--------- | -----------
+id | ID del episodio.
+SeriesID | ID de la serie.
+Registro | Número de registro del episodio.
+Title | Título del episodio.
+HDPosterUrl | URL de la imagen del episodio.
+TitleSeason | ID de la temporada de la cual se quieren obtener los episodios.
+EpisodeNumber | Número de episodio.
+Url | URL del episodio.
+ContentType | Tipo de contenido (episodes).
+
+# Radio
+
+## Radio
+
+Retorna las estaciones de radio disponibles para el usuario.
+
+`GET https://lap55.com/json/api/cdata/leon/radio/${deviceID}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+deviceID | si | Identificador generado por dispositivo al iniciar sesión.
+
+> Retorna una estructura JSON como la siguiente:
+
+```json
+{
+  "SuscriptionStatus": 1,
+  "SuscriptionResponse": "Suscripción vigente",
+  "category": "Recien Agregadas",
+  "poster_type": "1",
+  "cmData": [
+  {
+      "id": 0,
+      "Registro": "19352",
+      "Title": "Electro Colombia Radio Señal 2",
+      "HDPosterUrl": "https://panel.guiah.tv/media/LiveContents/Previews/20210505181440466.webp",
+      "Url": "https://lap55.com/dl/videos/suscribe.mp4",
+      "ContentType": "leon_radio_futured"
+  }]
+}
+```
+
+### Respuesta
+
+Parámetro | Descripción
+--------- | -----------
+<a href="/#statuscode-suscriptionstatus">SuscriptionStatus</a> | Código del estado de la suscripción.
+<a href="/#statuscode-suscriptionstatus">SuscriptionResponse</a> | Estado del usuario (con suscripción válida, expirada, etc).
+category | Indica la categoría a la que corresponde el contenido.
+<a href="/#poster-type">poster_type</a> | Tipo de póster (landscape, portrait, etc).
+cmData <ul style="padding: 0px 30px; list-style: circle; margin: 0"><li>id</li><li>Registro</li><li>Title</li><li>HDPosterUrl</li><li>Url</li><li>ContentType</li><ul> | Datos del contenido solicitado. <ul style="padding: 0px; list-style: none; margin: 0"><li>ID del contenido</li><li>Número de registro del contenido</li><li>Nombre del contenido</li><li>URL de la imagen del contenido</li><li>Url del contenido</li><li>Tipo de contenido</li><ul>
+
+## Radio link
+
+Endpoint que retorna una URL "m3u8" con un token de autorización. El token vence cada 5 minutos.
+
+`GET https://lap55.com/json/api/cmd/getLinkLeon/${Registro}/${deviceID}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+Registro | si | Número de registro del contenido seleccionado.
+deviceID | si | Identificador generado por dispositivo al iniciar sesión.
+
+> Retorna una estructura JSON como la siguiente:
+
+```json
+{
+    "StatusMessage": "Suscripción vigente",
+    "StatusCode": 1,
+    "Url": "https://sina3.guiah.tv/guiah/VOD/1/smil:20210504173820870.smil/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9OC8zMS8yMDIxIDU6NTY6NDggUE0maGFzaF92YWx1ZT16WWVHQWQxVDhCdE5YOXdYRm5oZUlRPT0mdmFsaWRtaW51dGVzPTUmaWQ9T1VIRFpZUEZIUjBSTE9LQUQySC1OWlRNNlU0QTVQUUhCUkJVUUlBTFY1NA=="
+}
+```
+
+### Respuesta
+
+Parámetro | Descripción
+--------- | -----------
+<a href="/#statuscode-suscriptionstatus">StatusMessage</a> | Estado del usuario (con suscripción válida, expirada, etc).
+<a href="/#statuscode-suscriptionstatus">StatusCode</a> | Código del estado de la suscripción.
+Url | URL m3u8 con token de autorización.
+
+# Music
+
+## Music home
+
+Endpoint que retorna toda la información de música para el perfil de usuario.
+
+`GET https://api.guiah.tv/music/home/${deviceID}/${profileID}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+deviceID | si | ID generado al iniciar sesión.
+profileID | si | ID del perfil de usuario.
+
+> Retorna una estructura JSON como la siguiente:
+
+```json
+{
+    "suscriptionStatus": 1,
+    "suscriptionResponse": "Suscripción vigente",
+    "musicSections": [
+        {
+            "title": "Estrenos",
+            "description": "Lo más nuevo de la música ",
+            "posterType": "0",
+            "contentType": "tracks",
+            "totalItems": 10,
+            "tracks": [
+                {
+                    "regID": 5,
+                    "title": "Aleluya (Feat.Omar Cruz)",
+                    "artists": [
+                        {
+                            "artistID": 1,
+                            "title": "Emmanuel Garduño"
+                        },
+                        {
+                            "artistID": 4,
+                            "title": "Omar Cruz"
+                        }
+                    ],
+                    "portadaURL": "https://guiah.tv/dl/portadas/music/album/DignoEresTu.jpg",
+                    "portadaLandscapeURL": "https://guiah.tv/dl/logos/guiahtv_paloma.png",
+                    "albumID": 1,
+                    "trackNumber": 1,
+                    "albumTitle": "Digno Eres Tú"
+                }
+            ]
+        }
+    ]
+}
+```
+
+### Respuesta
+
+Parámetro | Descripción
+--------- | -----------
+<a href="/#statuscode-suscriptionstatus">suscriptionStatus</a> |	Código del estado de la suscripción.
+<a href="/#statuscode-suscriptionstatus">suscriptionResponse</a> | Estado del usuario (con suscripción válida, expirada, etc).
+musicSections | Lista de secciones de música disponibles.
+  &nbsp;&nbsp; title | Título de la sección de música.
+  &nbsp;&nbsp; description | Descripción de la sección.
+  <a href="/#poster-type">posterType</a> | Tipo de póster (landscape, portrait, etc).
+  &nbsp;&nbsp; contentType | Tipo de contenido (tracks)
+  &nbsp;&nbsp; totalItems | Cantidad de tracks en la sección.
+  &nbsp;&nbsp; tracks | Lista de tracks disponibles para la sección.
+    &nbsp;&nbsp;&nbsp;&nbsp; - regID | ID del track.
+    &nbsp;&nbsp;&nbsp;&nbsp; - title | Título del track.
+    &nbsp;&nbsp;&nbsp;&nbsp; - artists | Lista de artistas que participan en el track.
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- artistID | ID del artista.
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -- title | Nombre del artista.
+    &nbsp;&nbsp;&nbsp;&nbsp; - portadaURL | URL de la imagen de portada del track.
+    &nbsp;&nbsp;&nbsp;&nbsp; - albumID | ID del album al que pertenece el track.
+    &nbsp;&nbsp;&nbsp;&nbsp; - trackNumber | Número de track.
+    &nbsp;&nbsp;&nbsp;&nbsp; - albumTitle | Título del álbum al que pertenece el track.
+
+## Music artist
+
+Retorna la información del artista seleccionado.
+
+`GET https://api.guiah.tv/get/artist/${artistID}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+artistID | si | ID del artista que se seleccionó.
+
+> Retorna una estructura JSON como la siguiente:
+
+```json
+{
+    "title": "Wendy Montilla",
+    "description": "Wendy nació en un hogar cristiano en Villa Altagracia, República Dominicana, desde muy temprana edad empezó a sentir gran pasión por la música, y a los doce años resultó galardonada con el primer lugar en el “Festival de la voz infantil” organizado por el Concilio de Iglesias Asambleas de Dios, en República Dominicana.\r\n\r\nLo que la llevó a formar parte del coro Latinoamericano de niños “Generación 21” Con este coro de 21 niños, de veinte nacionalidades diferentes, Wendy tuvo la oportunidad de hacer su primera gira por catorce Estados.\r\n\r\nDesde el año 2006, forma parte del coro de la “Suprema Corte de Justicia” reconocido como uno de los tres mejores coros de música clásica en República Dominicana.",
+    "portadaURL": "https://guiah.tv/dl/portadas/music/artist/wm_artist.jpg",
+    "albums": [
+        {
+            "albumID": 2,
+            "title": "Solo Para Ti",
+            "portadaURL": "https://guiah.tv/dl/portadas/music/album/wm_soloparati.jpg"
+        }
+    ]
+}
+```
+
+### Respuesta
+
+Parámetro | Descripción
+--------- | -----------
+title | Nombre del artista seleccionado.
+description | Biografía del artista seleccionado.
+portadaURL | Imagen del artista seleccionado.
+albums | Lista de álbums asociados al artista.
+&nbsp;&nbsp; - albumID | ID del álbum.
+&nbsp;&nbsp; - title | Título del álbum.
+&nbsp;&nbsp; - portadaURL | URL de la imagen del álbum.
+
+## Music album
+
+Retorna la información el álbum de música seleccionado.
+
+`GET https://api.guiah.tv/get/album/${albumID}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+albumID | si | ID del álbum seleccionado.
+
+> Retorna una estructura JSON como la siguiente:
+
+```json
+{
+    "title": "Solo Para Ti",
+    "description": "“Solo para Ti” es el comienzo de su llamado al ministerio. Al escuchar esta producción encontraras letras que marcan la búsqueda de su presencia, una adoración genuina, un corazón agradecido, fidelidad y profundo amor por Jesús.",
+    "portadaURL": "https://guiah.tv/dl/portadas/music/album/wm_soloparati.jpg",
+    "totalItems": 10,
+    "tracks": [
+        {
+            "regID": 9,
+            "title": "Has Morada",
+            "artists": [
+                {
+                    "artistID": 6,
+                    "title": "Wendy Montilla"
+                }
+            ],
+            "portadaURL": null,
+            "albumID": 2,
+            "trackNumber": 1,
+        }
+    ]
+}
+```
+
+### Respuesta
+
+Parámetro | Descripción
+--------- | -----------
+title | Título del álbum seleccionado
+description | Descripción del álbum seleccionado
+portadaURL | URL de la imagen de portada.
+totalItems | Total de tracks que contiene el álbum.
+tracks | Lista de tracks que pertenecen al álbum.
+&nbsp;&nbsp; - regID | ID del track.
+&nbsp;&nbsp; - title | Título del track.
+&nbsp;&nbsp; - artists | Artistas que colaboran en el track.
+&nbsp;&nbsp;&nbsp;&nbsp; - artistID | ID del artista.
+&nbsp;&nbsp;&nbsp;&nbsp; - title | Nombre del artista.
+&nbsp;&nbsp; - portadaURL | URL de la imagen de portada del track.
+&nbsp;&nbsp; - albumID | ID del álbum al que pertenece.
+&nbsp;&nbsp; - trackNumber | Número de track.
+
+## Music my playlists
+
+Retorna la información de las playlists del perfil de usuario.
+
+`GET https://api.guiah.tv/get/myplaylist/${deviceID}/${profileID}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+deviceID | si | Identificador generado por dispositivo al iniciar sesión.
+profileID | si | ID del perfil de usuario.
+
+> Retorna una estructura JSON como la siguiente:
+
+```json
+{
+    "title": "Mis PlayLists",
+    "portadaURL": "https://guiah.tv/dl/logos/guiah-round.png",
+    "contentType": "playlists",
+    "parentSection": null,
+    "totalItems": 0,
+    "playLists": [
+        {
+            "regID": 18,
+            "title": "Playlist de prueba 2",
+            "portadaURL": "https://guiah.tv/dl/logos/guiah-round.png",
+            "posterType": "0",
+            "contentType": "tracks",
+            "isPublic": false
+        }
+    ]
+}
+```
+
+### Respuesta
+
+Parámetro | Descripción
+--------- |  -----------
+title | Título de la sección de playlists.
+portadaURL | Portada de la sección de playlists.
+<a href="/#poster-type">posterType</a> | Tipo de póster (landscape, portrait, etc).
+contentType | Tipo de contenido (playlists)
+parentSection | ID de la sección de playlists. 
+totalItems | Cantidad de playlist del perfil de usuario.
+playLists | Lista de playlists del perfil de usuario.
+&nbsp;&nbsp; - regID | ID de playlist.
+&nbsp;&nbsp; - title | Título de playlist.
+&nbsp;&nbsp; - portadaURL | URL de imagen de portada.
+&nbsp;&nbsp; - isPublic | Menciona si la playlist es pública o no.
+
+## Music playlist
+
+Retorna la información de la playlist seleccionada.
+
+`GET https://api.guiah.tv/get/playlist/${playlistID}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+playlistID | si | ID de la playlist seleccionada.
+
+> Retorna una estructura JSON como la siguiente:
+
+```json
+{
+    "title": "Playlist de prueba 2",
+    "description": "Descripción de playlist de prueba",
+    "portadaURL": "https://guiah.tv/dl/logos/guiah-round.png",
+    "posterType": "0",
+    "contentType": "tracks",
+    "parentSection": null,
+    "musicCollectionID": 18,
+    "playLists": null,
+    "tracks": null
+}
+```
+
+### Respuesta
+
+Parámetro | Descripción
+--------- | -----------
+title | Título de la playlist seleccionada
+description | Descripción de la playlist seleccionada
+portadaURL | URL de la portada de la playlist.
+<a href="/#poster-type">posterType</a> | Tipo de póster (landscape, portrait, etc).
+contentType | Tipo de contenido (tracks)
+parentSection | Indica la sección de playlists a la cual corresponde (Ej: Lo más sonado, Top 10, etc)
+musicCollectionID | ID de la playlist.
+totalItems | Cantidad de playlist del perfil de usuario.
+playLists | Lista de playlists del perfil de usuario.
+&nbsp;&nbsp; - regID | ID de playlist.
+&nbsp;&nbsp; - title | Título de playlist.
+&nbsp;&nbsp; - portadaURL | URL de imagen de portada.
+&nbsp;&nbsp; - isPublic | Menciona si la playlist es pública o no.
+
+## Music track link
+
+Endpoint que retorna una URL "m3u8" con un token de autorización. El token vence cada 5 minutos.
+
+`GET https://api.guiah.tv/get/trackLink/${trackId}/${deviceID}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+trackId | si | ID del track seleccionado.
+deviceID | si | Identificador generado por dispositivo al iniciar sesión.
+
+> Retorna una estructura JSON como la siguiente:
+
+```json
+{
+    "suscriptionStatus": 1,
+    "suscriptionResponse": "Suscripción vigente",
+    "url": "https://sina3.guiah.tv/guiah/music/2/6wm2t2.aac/playlist.m3u8?wmsAuthSign=c2VydmVyX3RpbWU9OS8xLzIwMjEgMTA6MzQ6MzggUE0maGFzaF92YWx1ZT1lM2ZwUUpHcDBXWWRIRFF3TlN0ZzBnPT0mdmFsaWRtaW51dGVzPTUmaWQ9UlZXUUtQTVJVVy1PSzg3U05aTllSTUhGSlhfOTZGUFk0UkFHVUlFTldHVQ=="
+}
+```
+
+### Respuesta
+
+Parámetro | Descripción
+--------- | -----------
+<a href="/#statuscode-suscriptionstatus">SuscriptionStatus</a> | Código del estado de la suscripción.
+<a href="/#statuscode-suscriptionstatus">suscriptionResponse</a> | Estado del usuario (con suscripción válida, expirada, etc).
+url | URL m3u8 con token de autorización.
+
+## Music create playlist
+
+Endpoint para crear una playlist nueva dentro del perfil de usuario. 
+
+`POST https://api.guiah.tv/post/playlist/${deviceID}/${profileID}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+deviceID | si | Identificador generado por dispositivo al iniciar sesión.
+profileID | si | ID del perfil de usuario.
+
+> Retorna una estructura JSON como la siguiente:
+
+```json
+{
+    "regID": 1059,
+    "title": "Titulo",
+    "description": "Descripcion",
+    "isPublic": false
+}
+```
+
+### Respuesta
+
+Parámetro | Descripción
+--------- | -----------
+regID | ID de la playlist editada.
+title | Título nuevo de la playlist.
+description | Descripción nueva de la playlist.
+isPublic | Define si la playlist es pública o no.
+
+## Music edit playlist
+
+Endpoint para editar una playlist creada dentro del perfil de usuario.
+
+`PUT https://api.guiah.tv/put/playlist/${playlistID}/${deviceID}/${profileID}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+playlistID | si | ID de playlist que se va a editar.
+deviceID | si | Identificador generado por dispositivo al iniciar sesión.
+profileID | si | ID del perfil de usuario.
+
+> Retorna una estructura JSON como la siguiente:
+
+```json
+{
+    "regID": 1059,
+    "title": "Titulo nuevo",
+    "description": "Descripcion nueva",
+    "isPublic": true
+}
+```
+
+### Respuesta
+
+Parámetro | Descripción
+--------- | -----------
+regID | ID de la playlist editada.
+title | Título nuevo de la playlist.
+description | Descripción nueva de la playlist.
+isPublic | Define si la playlist es pública o no.
+
+## Music delete playlist
+
+Endpoint para eliminar una serie del perfil de usuario.
+
+`DELETE https://api.guiah.tv/delete/playlist/${playlistID}/${deviceID}/${profileID}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+playlistID | si | ID de la playlist que se desea eliminar.
+deviceID | si | Identificador generado por dispositivo al iniciar sesión.
+profileID | si | ID del perfil de usuario.
+
+
+> Retorna lo siguiente:
+
+```
+PlayList eliminada con exito.
+```
+
+### Respuesta
+
+Solamente valida el estado de la petición.
+
+Status Code : Estado de la petición 
+<ul><li>200: OK.</li><li>404: Not Found.</li></ul>
+
+# Search
+
+Retorna los resultados de la búsqueda realizada por el usuario.
+
+`GET https://lap55.com/json/api/cmetadata/search/leon/${deviceID}/${string}/${utcLocal}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+deviceID | si | Identificador generado por dispositivo al iniciar sesión.
+string | si | Palabra o frase ingresada en la búsqueda.
+utcLocal | si | UTC (Universal Time Coordinated) “Tiempo Coordinado Universal” de la zona en que se encuentre el usuario.
+
+> Retorna una estructura JSON como la siguiente:
+
+```json
+{
+  "SuscriptionStatus": 1,
+  "SuscriptionResponse": "Suscripción vigente",
+  "category": "Recien Agregadas",
+  "cmData": [
+  {
+      "id": 0,
+      "Registro": "9",
+      "Title": "Rich Mullins: A Ragamuffin's Legacy",
+      "HDPosterUrl": "https://panel.guiah.tv/media/VOD/1/20210504102233516/20210504102233516_LS.webp",
+      "Url": "https://lap55.com/dl/videos/suscribe.mp4",
+      "ContentType": "sc_movie"
+  }]
+}
+```
+
+### Respuesta
+
+Parámetro | Descripción
+--------- | -----------
+<a href="/#statuscode-suscriptionstatus">SuscriptionStatus</a> | Código del estado de la suscripción.
+<a href="/#statuscode-suscriptionstatus">SuscriptionResponse</a> | Estado del usuario (con suscripción válida, expirada, etc).
+category | Indica la categoría a la que corresponde el contenido.
+cmData <ul style="padding: 0px 30px; list-style: circle; margin: 0"><li>id</li><li>Registro</li><li>Title</li><li>HDPosterUrl</li><li>Url</li><li>ContentType</li><ul> | Datos del contenido solicitado. <ul style="padding: 0px; list-style: none; margin: 0"><li>ID del contenido</li><li>Número de registro del contenido</li><li>Nombre del contenido</li><li>URL de la imagen del contenido</li><li>Url del contenido</li><li>Tipo de contenido</li><ul>
+
+# Contact
+
+Retorna todos los datos y medios de comunicación registrados del socio de contenido.
+
+`GET https://lap55.com/json/api/getinfo/contactid/${ContactID}`
+
+### Parámetros del Query
+
+Parámetro | Requerido | Descripción
+--------- | ------- | -----------
+ContactID | si | ID del socio de contenido.
+
+> Retorna una estructura JSON como la siguiente:
+
+```json
+{
+    "ContactFon": "+502 4114-3430",
+    "ContactWeb": "https://www.penielguatemala.com/",
+    "ContactFb": "133571583485918",
+    "ContactTw": "RadioPenielGT",
+    "ContactIG": "radiopeniel",
+    "ContactHorarios": "Lu-Vi 8:00 - 19:00",
+    "ContactLoc": "14.6080432,-90.7131133",
+    "ContactImg": "https://lap55.com/dl/peniel/fb_peniel.jpg",
+    "ContactTitle": "Radio Peniel",
+    "ContactDescription": "Iglesia cristiana que cree y declara a Jesucristo como su Señor y Salvador. Cada semana, personas de todas las edades, condiciones sociales y contextos personales y familiares nos reunimos para tener un tiempo fresco, dinámico y profundo de alabanza y adoración, además de recibir la Palabra de Dios a través de mensajes que descubren las verdades eternas de una forma atractiva, fácilmente y Radio Peniel es una estación radial que opera actualmente vía internet, moderna con una visión eterna, nacimos para crear nuevos espacios y oportunidades, para apoyar el Talento Nacional y para ofrecerte programas nuevos e innovadores. Puedes escuchar lo mejor de la Música Cristiana en español e inglés. Márcala, Grábala,Compártela!"
+}
+```
+
+### Respuesta
+
+Parámetro | Descripción
+--------- | -----------
+ContactFon | Número de teléfono.
+ContactWeb | URL de sitio web.
+ContactFb | Facebook de socio de contenido.
+ContactTw | Twitter de socio de contenido.
+ContactIG | Instagram de socio de contenido.
+ContactHorarios | Horarios de atención de socio de contenido.
+ContactLoc| Ubicación de socio de contenido.
+ContactImg | Imagen de socio de contenido.
+ContactTitle | Nomnbre de socio de contenido.
+ContactDescription | Descripción de socio de contenido.
+
+# StatusCode / SuscriptionStatus
+
+Parámetro que se recibe como respuesta en peticiones como el de contenido de Televisión en Vivo, Catálogo de VOD, Catálogo de Radio, Música y Búsqueda.
+
+Éste parametro devuelve una lista de códigos que se describen a continuación: 
+
+StatusCode/SuscriptionStatus | StatusMessage/SuscriptionResponse
+--------- | -----------
+0 | Suscripción expirada.
+1 | Suscripción vigente.
+2 | Usuario en periodo de gracia.
+3 | Usuario en modo gratuito.
+4 | Sesión no válida, favor de iniciar nueva sesión.
+
+# Poster Type
+
+Éste parametro devuelve el tipo de poster que está asociado al contenido correspondiente. 
+
+PosterType | Descripción | Medidas
+--------- | ----------- | -----------
+0 | Portrait (Formato vertical) | 300px x 450px
+1 | Landscape (Formato horizontal) | 640px x 360px
+2 | Square (Formato cuadrado) | 320px x 320px
