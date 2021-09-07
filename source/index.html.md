@@ -4,8 +4,8 @@ title: Documentación de API
 language_tabs: # must be one of https://git.io/vQNgJ
   - C#
 
-toc_footers:
-  - <a href='https://guiah.tv'>Guíah TV</a>
+# toc_footers:
+#   - <a href='https://guiah.tv'>Guíah TV</a>
 
 search: true
 
