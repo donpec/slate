@@ -2,30 +2,32 @@
 title: Documentación de API
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - C#
+  - Ejemplos
 
-# toc_footers:
-#   - <a href='https://guiah.tv'>Guíah TV</a>
+toc_footers:
+  - <a href='https://guiah.tv'>Guíah TV</a>
 
 search: true
 
 code_clipboard: true
 ---
 
-# Login
+# DOCUMENTACIÓN API
+
+## Login
 
 Endpoint utilizado para el inicio de sesión, valida que los datos sean correctos y devuelve el suscriberID para que el usuario pueda acceder (dependiendo del estado de sus sucripción) al contenido disponible.
 
 `GET https://lap55.com/json/api/cmd/logusr/${username}/${password}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
 Username | si | Correo con el que fue registrado el usuario.
 Password | si | Contraseña que el usuario definió en su registro.
 
-### Parámetros del Body
+#### Parámetros del Body
 Dentro del body se envía la información del dispositivo con los siguientes parámetros:
 
 Parámetro | Requerido | Descripción
@@ -46,7 +48,7 @@ DeviceVersion | si | Versión del sistema del dispositivo.
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -55,7 +57,7 @@ Response | Estado del usuario (dependiendo del ResponseCode).
 IsSuscribed | Indica si es usuario cuenta con una suscripción.
 ResponseCode &nbsp;&nbsp;&nbsp;| <ul style="list-style: circle; padding: 0; margin-top:0"><li>0 UsrNotFound = Usuario No Encontrado</li><li>2 UsrSuscribed = Usuario Suscrito</li><li> 3 UsrPassError = Password Incorrecta</li><li>6 UsrExceedsDevices = Usuario Suscrito excede el límite de dispositivos permitidos</li></ul>
 
-# Spotlight
+## Spotlight
 
 Retorna las URL de las imágenes que carga el carrusel o "spotlight" ubicado en la sección de "Home".
 
@@ -74,7 +76,7 @@ Retorna las URL de las imágenes que carga el carrusel o "spotlight" ubicado en 
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -85,7 +87,7 @@ ImgLandscape | URL de la imagen en formato horizontal (Landscape).
 Activo | Indica si el spotlight está actualmente activo
 MainSection | Indica la sección en la que la imagen es renderizada.
 
-# Buttons Menu
+## Buttons Menu
 
 Retorna las URL de las imágenes que cargan los botones o recuadros de menú (los cuales envían al contenido correspondiente) en la sección de "Home".
 
@@ -105,7 +107,7 @@ Retorna las URL de las imágenes que cargan los botones o recuadros de menú (lo
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -117,15 +119,15 @@ PosterCardUrl | URL de la imagen de los botones del menú.
 PosterCardUrlLandscape | URL de la imagen en formato horizontal (Landscape).
 PosterCardUrlPortrait | URL de la imagen en formato vertical (Portrait).
 
-# LiveTV
-
 ## LiveTV
+
+### LiveTV
 
 Endpoint que retorna la información de los canales de Televisión en Vivo.
 
 `GET https://lap55.com/json/api/cmdata/leon/livetvplus/${deviceID}/${utcLocal}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -150,7 +152,7 @@ utcLocal | si | UTC (Universal Time Coordinated) “Tiempo Coordinado Universal�
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -160,13 +162,13 @@ category | Indica la categoría a la que corresponde el contenido.
 <a href="/#poster-type">poster_type</a> | Tipo de póster (landscape, portrait, etc).
 cmData <ul style="padding: 0px 30px; list-style: circle; margin: 0"><li>Id</li><li>Name</li><li>Url</li><li>Poster</li><ul> | Datos del contenido solicitado. <ul style="padding: 0px; list-style: none; margin: 0"><li>ID del contenido</li><li>Nombre del contenido</li><li>Url del contenido (no utilizar)</li><li>URL de la imagen del contenido</li><ul>
 
-## LiveTV link
+### LiveTV link
 
 Endpoint que retorna una URL "m3u8" con un token de autorización. El token vence cada 5 minutos.
 
 `GET https://lap55.com/json/api/cmd/getLinkLiveTV/${SignalID}/${deviceID}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -183,7 +185,7 @@ deviceID | si | Identificador generado por dispositivo al iniciar sesión.
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -191,15 +193,15 @@ Parámetro | Descripción
 <a href="/#statuscode-suscriptionstatus">StatusCode</a> | Código del estado de la suscripción.
 Url | URL m3u8 con token de autorización.
 
-# VOD
+## VOD
 
-## Catalogue VOD
+### Catalogue VOD
 
 Endpoint que retorna la información del contenido de VOD (Video Bajo Demanda).
 
 `GET https://lap55.com/json/api/cmdata/leon/entplus/${deviceID}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -226,7 +228,7 @@ deviceID | si | Identificador generado por dispositivo al iniciar sesión.
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -236,13 +238,13 @@ category | Indica la categoría a la que corresponde el contenido.
 <a href="/#poster-type">poster_type</a> | Tipo de póster (landscape, portrait, etc).
 cmData <ul style="padding: 0px 30px; list-style: circle; margin: 0"><li>id</li><li>Registro</li><li>Title</li><li>HDPosterUrl</li><li>Url</li><li>ContentType</li><li>ResumePos</li><ul> | Datos del contenido solicitado. <ul style="padding: 0px; list-style: none; margin: 0"><li>ID del contenido</li><li>Número de registro del contenido</li><li>Nombre del contenido</li><li>URL de la imagen del contenido</li><li>Url del contenido</li><li>Tipo de contenido</li><li>Tiempo en que se quedó pausado el contenido</li><ul>
 
-## Catalogue Kids
+### Catalogue Kids
 
 Endpoint que retorna la información del contenido de Zona Kids.
 
 `GET https://lap55.com/json/api/cdata/leon/kids/${deviceID}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -269,7 +271,7 @@ deviceID | si | Identificador generado por dispositivo al iniciar sesión.
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -279,13 +281,13 @@ category | Indica la categoría a la que corresponde el contenido.
 <a href="/#poster-type">poster_type</a> | Tipo de póster (landscape, portrait, etc).
 cmData <ul style="padding: 0px 30px; list-style: circle; margin: 0"><li>id</li><li>Registro</li><li>Title</li><li>HDPosterUrl</li><li>Url</li><li>ContentType</li><li>ResumePos</li><ul> | Datos del contenido solicitado. <ul style="padding: 0px; list-style: none; margin: 0"><li>ID del contenido</li><li>Número de registro del contenido</li><li>Nombre del contenido</li><li>URL de la imagen del contenido</li><li>Url del contenido</li><li>Tipo de contenido</li><li>Tiempo en que se quedó pausado el contenido</li><ul>
 
-## VOD link
+### VOD link
 
 Endpoint que retorna una URL "m3u8" con un token de autorización. El token vence cada 5 minutos.
 
 `GET https://lap55.com/json/api/cmd/getLinkLeon/${Registro}/${deviceID}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -302,7 +304,7 @@ deviceID | si | Identificador generado por dispositivo al iniciar sesión.
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -310,13 +312,13 @@ Parámetro | Descripción
 <a href="/#statuscode-suscriptionstatus">StatusCode</a> | Código del estado de la suscripción.
 Url | URL m3u8 con token de autorización.
 
-## Resume video
+### Resume video
 
 Endpoint que almacena la última posición del video o contenido reproducido.
 
 `GET https://lap55.com/json/api/cmd/sCmResPos/${Registro}/${positionVideo}/${deviceID}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -330,7 +332,7 @@ deviceID | si | Identificador generado por dispositivo al iniciar sesión.
 Status Code: 200
 ```
 
-### Respuesta
+#### Respuesta
 
 Solamente valida el status de la petición.
 
@@ -338,15 +340,15 @@ Status Code: Estado de la petición
 
 <ul><li>200: OK.</li><li>404: Not Found.</li></ul>
 
-# Series
+## Series
 
-## Season
+### Season
 
 Endpoint que retorna las temporadas de la serie seleccionada.
 
 `GET https://lap55.com/json/api/season/leon/${ContentTypeOrder}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -366,7 +368,7 @@ ContentTypeOrder | si | ID de la serie de la cual se quieren obtener las tempora
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -377,13 +379,13 @@ HDPosterUrl | URL de la imagen de la temporada.
 TitleSeason | ID de la temporada de la cual se quieren obtener los episodios.
 ContentType | Tipo de contenido (season).
 
-## Chapters
+### Chapters
 
 Endpoint que retorna los episodios de la temporada seleccionada.
 
 `GET https://lap55.com/json/api/episode/leon/${serieId}/temp/${TitleSeason}/${deviceID}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -407,7 +409,7 @@ deviceID | si | Identificador generado por dispositivo al iniciar sesión.
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -421,15 +423,15 @@ EpisodeNumber | Número de episodio.
 Url | URL del episodio.
 ContentType | Tipo de contenido (episodes).
 
-# Radio
-
 ## Radio
+
+### Radio
 
 Retorna las estaciones de radio disponibles para el usuario.
 
 `GET https://lap55.com/json/api/cdata/leon/radio/${deviceID}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -455,7 +457,7 @@ deviceID | si | Identificador generado por dispositivo al iniciar sesión.
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -465,13 +467,13 @@ category | Indica la categoría a la que corresponde el contenido.
 <a href="/#poster-type">poster_type</a> | Tipo de póster (landscape, portrait, etc).
 cmData <ul style="padding: 0px 30px; list-style: circle; margin: 0"><li>id</li><li>Registro</li><li>Title</li><li>HDPosterUrl</li><li>Url</li><li>ContentType</li><ul> | Datos del contenido solicitado. <ul style="padding: 0px; list-style: none; margin: 0"><li>ID del contenido</li><li>Número de registro del contenido</li><li>Nombre del contenido</li><li>URL de la imagen del contenido</li><li>Url del contenido</li><li>Tipo de contenido</li><ul>
 
-## Radio link
+### Radio link
 
 Endpoint que retorna una URL "m3u8" con un token de autorización. El token vence cada 5 minutos.
 
 `GET https://lap55.com/json/api/cmd/getLinkLeon/${Registro}/${deviceID}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -488,7 +490,7 @@ deviceID | si | Identificador generado por dispositivo al iniciar sesión.
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -496,15 +498,15 @@ Parámetro | Descripción
 <a href="/#statuscode-suscriptionstatus">StatusCode</a> | Código del estado de la suscripción.
 Url | URL m3u8 con token de autorización.
 
-# Music
+## Music
 
-## Music home
+### Music home
 
 Endpoint que retorna toda la información de música para el perfil de usuario.
 
 `GET https://api.guiah.tv/music/home/${deviceID}/${profileID}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -545,12 +547,28 @@ profileID | si | ID del perfil de usuario.
                     "albumTitle": "Digno Eres Tú"
                 }
             ]
+        },
+        {
+            "title": "Artistas Populares",
+            "description": "Lore Ipsum",
+            "portadaURL": null,
+            "posterType": "0",
+            "contentType": "artists",
+            "totalItems": 4,
+            "artists": [
+                {
+                    "artistID": 6,
+                    "title": "Wendy Montilla",
+                    "description": "Wendy nació en un hogar cristiano en Villa Altagracia, República Dominicana, desde muy temprana edad empezó a sentir gran pasión por la música, y a los doce años resultó galardonada con el primer lugar en el “Festival de la voz infantil” organizado por el Concilio de Iglesias Asambleas de Dios, en República Dominicana.\r\n\r\nLo que la llevó a formar parte del coro Latinoamericano de niños “Generación 21” Con este coro de 21 niños, de veinte nacionalidades diferentes, Wendy tuvo la oportunidad de hacer su primera gira por catorce Estados.\r\n\r\nDesde el año 2006, forma parte del coro de la “Suprema Corte de Justicia” reconocido como uno de los tres mejores coros de música clásica en República Dominicana.",
+                    "portadaURL": "https://guiah.tv/dl/portadas/music/artist/wm_artist.jpg"
+                }
+            ]
         }
     ]
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -572,14 +590,19 @@ musicSections | Lista de secciones de música disponibles.
     &nbsp;&nbsp;&nbsp;&nbsp; - albumID | ID del album al que pertenece el track.
     &nbsp;&nbsp;&nbsp;&nbsp; - trackNumber | Número de track.
     &nbsp;&nbsp;&nbsp;&nbsp; - albumTitle | Título del álbum al que pertenece el track.
+  &nbsp;&nbsp; artists | Lista de artistas recomendados.
+    &nbsp;&nbsp;&nbsp;&nbsp; - artistID | ID del artista.
+    &nbsp;&nbsp;&nbsp;&nbsp; - title | Título del artista.
+    &nbsp;&nbsp;&nbsp;&nbsp; - description | Descripción general del artista.
+    &nbsp;&nbsp;&nbsp;&nbsp; - portadaURL | Foto del artista.
 
-## Music artist
+### Music artist
 
 Retorna la información del artista seleccionado.
 
 `GET https://api.guiah.tv/get/artist/${artistID}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -602,7 +625,7 @@ artistID | si | ID del artista que se seleccionó.
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -614,13 +637,13 @@ albums | Lista de álbums asociados al artista.
 &nbsp;&nbsp; - title | Título del álbum.
 &nbsp;&nbsp; - portadaURL | URL de la imagen del álbum.
 
-## Music album
+### Music album
 
 Retorna la información el álbum de música seleccionado.
 
 `GET https://api.guiah.tv/get/album/${albumID}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -652,7 +675,7 @@ albumID | si | ID del álbum seleccionado.
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -670,13 +693,13 @@ tracks | Lista de tracks que pertenecen al álbum.
 &nbsp;&nbsp; - albumID | ID del álbum al que pertenece.
 &nbsp;&nbsp; - trackNumber | Número de track.
 
-## Music my playlists
+### Music my playlists
 
 Retorna la información de las playlists del perfil de usuario.
 
 `GET https://api.guiah.tv/get/myplaylist/${deviceID}/${profileID}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -705,7 +728,7 @@ profileID | si | ID del perfil de usuario.
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- |  -----------
@@ -721,13 +744,13 @@ playLists | Lista de playlists del perfil de usuario.
 &nbsp;&nbsp; - portadaURL | URL de imagen de portada.
 &nbsp;&nbsp; - isPublic | Menciona si la playlist es pública o no.
 
-## Music playlist
+### Music playlist
 
 Retorna la información de la playlist seleccionada.
 
 `GET https://api.guiah.tv/get/playlist/${playlistID}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -749,7 +772,7 @@ playlistID | si | ID de la playlist seleccionada.
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -767,13 +790,13 @@ playLists | Lista de playlists del perfil de usuario.
 &nbsp;&nbsp; - portadaURL | URL de imagen de portada.
 &nbsp;&nbsp; - isPublic | Menciona si la playlist es pública o no.
 
-## Music track link
+### Music track link
 
 Endpoint que retorna una URL "m3u8" con un token de autorización. El token vence cada 5 minutos.
 
 `GET https://api.guiah.tv/get/trackLink/${trackId}/${deviceID}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -790,7 +813,7 @@ deviceID | si | Identificador generado por dispositivo al iniciar sesión.
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -798,13 +821,13 @@ Parámetro | Descripción
 <a href="/#statuscode-suscriptionstatus">suscriptionResponse</a> | Estado del usuario (con suscripción válida, expirada, etc).
 url | URL m3u8 con token de autorización.
 
-## Music create playlist
+### Music create playlist
 
 Endpoint para crear una playlist nueva dentro del perfil de usuario. 
 
 `POST https://api.guiah.tv/post/playlist/${deviceID}/${profileID}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -822,7 +845,7 @@ profileID | si | ID del perfil de usuario.
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -831,13 +854,13 @@ title | Título nuevo de la playlist.
 description | Descripción nueva de la playlist.
 isPublic | Define si la playlist es pública o no.
 
-## Music edit playlist
+### Music edit playlist
 
 Endpoint para editar una playlist creada dentro del perfil de usuario.
 
 `PUT https://api.guiah.tv/put/playlist/${playlistID}/${deviceID}/${profileID}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -856,7 +879,7 @@ profileID | si | ID del perfil de usuario.
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -865,13 +888,13 @@ title | Título nuevo de la playlist.
 description | Descripción nueva de la playlist.
 isPublic | Define si la playlist es pública o no.
 
-## Music delete playlist
+### Music delete playlist
 
 Endpoint para eliminar una serie del perfil de usuario.
 
 `DELETE https://api.guiah.tv/delete/playlist/${playlistID}/${deviceID}/${profileID}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -886,20 +909,20 @@ profileID | si | ID del perfil de usuario.
 PlayList eliminada con exito.
 ```
 
-### Respuesta
+#### Respuesta
 
 Solamente valida el estado de la petición.
 
 Status Code : Estado de la petición 
 <ul><li>200: OK.</li><li>404: Not Found.</li></ul>
 
-# Search
+## Search
 
 Retorna los resultados de la búsqueda realizada por el usuario.
 
 `GET https://lap55.com/json/api/cmetadata/search/leon/${deviceID}/${string}/${utcLocal}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -926,7 +949,7 @@ utcLocal | si | UTC (Universal Time Coordinated) “Tiempo Coordinado Universal�
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -935,13 +958,13 @@ Parámetro | Descripción
 category | Indica la categoría a la que corresponde el contenido.
 cmData <ul style="padding: 0px 30px; list-style: circle; margin: 0"><li>id</li><li>Registro</li><li>Title</li><li>HDPosterUrl</li><li>Url</li><li>ContentType</li><ul> | Datos del contenido solicitado. <ul style="padding: 0px; list-style: none; margin: 0"><li>ID del contenido</li><li>Número de registro del contenido</li><li>Nombre del contenido</li><li>URL de la imagen del contenido</li><li>Url del contenido</li><li>Tipo de contenido</li><ul>
 
-# Contact
+## Contact
 
 Retorna todos los datos y medios de comunicación registrados del socio de contenido.
 
 `GET https://lap55.com/json/api/getinfo/contactid/${ContactID}`
 
-### Parámetros del Query
+#### Parámetros del Query
 
 Parámetro | Requerido | Descripción
 --------- | ------- | -----------
@@ -964,7 +987,7 @@ ContactID | si | ID del socio de contenido.
 }
 ```
 
-### Respuesta
+#### Respuesta
 
 Parámetro | Descripción
 --------- | -----------
@@ -979,7 +1002,7 @@ ContactImg | Imagen de socio de contenido.
 ContactTitle | Nomnbre de socio de contenido.
 ContactDescription | Descripción de socio de contenido.
 
-# StatusCode / SuscriptionStatus
+## StatusCode / SuscriptionStatus
 
 Parámetro que se recibe como respuesta en peticiones como el de contenido de Televisión en Vivo, Catálogo de VOD, Catálogo de Radio, Música y Búsqueda.
 
@@ -993,7 +1016,7 @@ StatusCode/SuscriptionStatus | StatusMessage/SuscriptionResponse
 3 | Usuario en modo gratuito.
 4 | Sesión no válida, favor de iniciar nueva sesión.
 
-# Poster Type
+## Poster Type
 
 Éste parametro devuelve el tipo de poster que está asociado al contenido correspondiente. 
 
@@ -1002,3 +1025,158 @@ PosterType | Descripción | Medidas
 0 | Portrait (Formato vertical) | 300px x 450px
 1 | Landscape (Formato horizontal) | 640px x 360px
 2 | Square (Formato cuadrado) | 320px x 320px
+
+# GUÍA DE ESTILOS
+
+## Buttons
+
+Los buttons cuentan con 4 colores y 4 estilos distintos, "filled", "outline", "plain" y "link", 
+la parte de abajo muestra los buttons al momento de hacer hover sobre ellos. Del lado derecho (sección 
+color gris) se muestran los buttons sobre un fondo obscuro. 
+
+<%= image_tag "buttons-light.PNG", class: 'logo' %>
+
+Color | Código |
+--------- | ----------- 
+Azul | #00AEEF
+Morado | #6A26CD
+Negro | #100F10
+Blanco | #F8F8FF
+
+La tabla muestra los códigos para cada color utilizado en los buttons. El gradiente va de azul a morado en forma lineal. 
+
+> <%= image_tag "buttons-dark.PNG", class: 'logo' %>
+
+## Checkboxes
+
+<%= image_tag "checkboxes.PNG", class: 'logo' %>
+
+## Colors
+
+Los colores mostrados a continuación son los principales utilizados en la plataforma.
+
+<%= image_tag "colors-light.PNG", class: 'logo' %>
+
+> <%= image_tag "colors-dark.PNG", class: 'logo' %>
+
+## Dropdowns
+
+Los dropdowns o menús desplegables son utilizados para mostrar distintas opciones en un selector.
+
+<%= image_tag "dropdowns-light.PNG", class: 'logo' %>
+
+Tema | Fondo | Fondo de item activo
+--------- | ----------- | ----------- 
+Light | #C4C4C4 | #D7D7D7 
+Dark | #424242 | #616161 
+
+> <%= image_tag "dropdowns-dark.PNG", class: 'logo' %>
+
+## Font (family and size)
+
+La fuente utilizada es "Poppins", el tamaño o font size depende del dispositivo en que se vaya a 
+utilizar. A continuación se muestran las distintas medidas estándar para la fuente, las cuales están
+basadas en la base 64 (utilizando un tamaño de fuente que sea múltiplo de 8).
+
+<%= image_tag "font-web.PNG", class: 'logo' %>
+
+> <%= image_tag "font-smartphone.PNG", class: 'logo' %>
+
+<%= image_tag "font-smarttv.PNG", class: 'logo' %>
+
+## Icons
+
+Los iconos se utilizan de la libería de font-awesome, a excepción de los últimos 3, que son imáganes
+almacenadas en el server.
+
+> <%= image_tag "icons.PNG", class: 'logo' %>
+
+## Images
+
+En la plataforma se utilizan 3 medidas principales de imáganes: landscape (horizontal), portrait (vertical) 
+y square (cuadrada). A continuación se muestran las medidas.
+
+<%= image_tag "img-landscape.PNG", class: 'logo' %>
+
+<%= image_tag "img-portrait.PNG", class: 'logo' %>
+
+<%= image_tag "img-square.PNG", class: 'logo' %>
+
+## Inputs y labels
+
+<%= image_tag "inputs-light.PNG", class: 'logo' %>
+
+> <%= image_tag "inputs-dark.PNG", class: 'logo' %>
+
+## Popovers
+
+Los popovers o mensajes emergentes se utilizan para mostrar alguna notificación al usuario (error,
+mensaje de éxito, advertencias, etc). A continuación se muestra un ejemplo y una tabla de colores para
+el tema correspondiente (claro u obscuro)
+
+<%= image_tag "popovers-light.PNG", class: 'logo' %>
+
+Tema | Fondo de texto | Fondo de icono 
+--------- | ----------- | ----------- 
+Light | #CDCDCD | #8A8A8A 
+Dark | #424242 | #8A8A8A 
+
+
+> <%= image_tag "popovers-dark.PNG", class: 'logo' %>
+
+## ProgressBar
+
+Se utiliza para mostrar al usuario el avance del video que se esté reproduciendo.
+
+> <%= image_tag "progress-bar.PNG", class: 'logo' %>
+
+## Skeleton
+
+El skeleton es una representación aproximada de lo que la página va a cargar, es
+utilizado para que el usuario pueda ver que el contenido está siendo procesado (cumple una 
+función muy similar a un loader).
+
+> <%= image_tag "skeleton.PNG", class: 'logo' %>
+
+## Slider
+
+El slider es uno de los principales componentes de la plataforma, es en donde se muestran las 
+imágenes de spotlight en el inicio. 
+
+> <%= image_tag "slider.PNG", class: 'logo' %>
+
+## Spinner
+
+Loader utilizado para mostrar al usuario que algo está siendo procesado.
+
+<%= image_tag "spinner-light.PNG", class: 'logo' %>
+
+> <%= image_tag "spinner-dark.PNG", class: 'logo' %>
+
+## Tabs
+
+<%= image_tag "tabs-light.PNG", class: 'logo' %>
+
+> <%= image_tag "tabs-dark.PNG", class: 'logo' %>
+
+## Tooltip
+
+<%= image_tag "tooltip-light.PNG", class: 'logo' %>
+
+Tema | Fondo
+--------- | ----------- 
+Light | #DBD9D9  
+Dark | #706F6F 
+
+> <%= image_tag "tooltip-dark.PNG", class: 'logo' %>
+
+## Validation text
+
+<%= image_tag "validationtext-light.PNG", class: 'logo' %>
+
+Tema | Fondo
+--------- | ----------- 
+Light | #DC9240  
+Dark | #DC9240 
+
+> <%= image_tag "validationtext-dark.PNG", class: 'logo' %>
